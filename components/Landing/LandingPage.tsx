@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import React from 'react'
+import Login from '../Account/Login'
 
 export default function LandingPage() {
 
@@ -13,33 +14,7 @@ export default function LandingPage() {
                         quasi. In deleniti eaque aut repudiandae et a id nisi.
                     </p>
              </div>
-                <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
-                <form className="card-body">
-                    <div className="form-control">
-                    <label className="label">
-                        <span className="label-text">Email</span>
-                    </label>
-                    <input type="email" placeholder="email" className="input input-bordered" required />
-                    </div>
-                    <div className="form-control">
-                    <label className="label">
-                        <span className="label-text">Password</span>
-                    </label>
-                    <input type="password" placeholder="password" className="input input-bordered" required />
-                    <label className="label">
-                        <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
-                    </label>
-                    </div>
-                    <div className="form-control mt-6">
-                        <button className="btn btn-primary">Login</button>
-                    </div>
-                    <div>
-                    <span>Need an account? click </span>
-                    <Link className='link' href="/register">here</Link>
-                </div>
-                </form>
-               
-                </div>
+              <Login/>
             </div>
         </div>
         )

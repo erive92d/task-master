@@ -1,14 +1,11 @@
-
+"use client"
 import Link from 'next/link'
 import React from 'react'
-import { headers } from 'next/headers';
+
+import { signOut } from 'next-auth/react';
 
 export default function Navbar() {
-    const headersList = headers();
-    const pathname = headersList.get('x-pathname');
-    const noNavRoutes = ['/', '/register'];
-    console.log(pathname)
-
+  
   return (
             <div className="navbar py-8 bg-primary text-white">
                 <div className="navbar-start">
@@ -44,6 +41,7 @@ export default function Navbar() {
             <Link href="/" className="btn btn-ghost text-2xl font-bold">Task Master</Link>
         </div>
         <div className="navbar-end">
+            <button onClick={() => signOut()} className='text-2xl'>Logout</button>
             {/* <a className="p-2 rounded bg-white text-black">Join us</a> */}
         </div>
         </div>

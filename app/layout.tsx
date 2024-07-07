@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/layouts/Nav/Navbar";
-import { headers } from "next/headers";
+import NextAuthProvider from "@/Provider";
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -18,16 +17,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
 
-  const headersList = headers();
-  const pathname = headersList.get('x-pathname')|| ''
-  const noNavRoutes = ['/', '/register'];
+
 
   return (
     <html data-theme="corporate" lang="en">
       <body className={`${inter.className} min-h-screen bg-white text-black`}>
-      {!noNavRoutes.includes(pathname) && 
-      <Navbar/>}  
-        {children}
+          <NextAuthProvider>
+              {children}
+          </NextAuthProvider>
         </body>
     </html>
   );
