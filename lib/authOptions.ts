@@ -1,7 +1,8 @@
 import NextAuth, { AuthOptions } from "next-auth";
 import CredentialsProvider from 'next-auth/providers/credentials';
 import GithubProvider from "next-auth/providers/github"
-
+import prisma from "./prisma";
+import bcrypt from "bcrypt"
 
 export const authOptions: AuthOptions = {
     providers: [
@@ -14,26 +15,32 @@ export const authOptions: AuthOptions = {
       CredentialsProvider({
         name: "credentials",
         credentials: {},
+        
         async authorize(credentials:any, req) {
-          const {email, password} = credentials
-  
-         const response = await fetch(`${process.env.NEXTAUTH_URL}/api/account/login`, {
-           method: "POST",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify({email, password}),
-            cache: "no-store"
-          })
-  
-          const user = await response.json()
-  
-          if (response.ok && user) {
-            return user
-          }
           
-          return null
+          if(!credentials) {
+            throw new Error("No credentials provided")
+          }
+
+          const {email, password} = credentials
+          
+           const user = await prisma.user.findUnique({
+          where: { email },
+          });
   
+         if (!user) {
+          throw new Error('No user found with the provided email');
+        }
+
+        const isValidPassword = await bcrypt.compare(password, user.password);
+
+
+        if (!isValidPassword) {
+          throw new Error('Incorrect password');
+        }
+
+        return user
+
         },
       })
       ,

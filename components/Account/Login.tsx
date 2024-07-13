@@ -1,4 +1,5 @@
 "use client"
+
 import { signIn, useSession } from 'next-auth/react'
 import Link from 'next/link'
 import React, { useState } from 'react'
@@ -31,12 +32,7 @@ export default function Login() {
       if (!result?.error) {
         router.push('/dashboard'); // Redirect to dashboard or any other authenticated route
       } else {
-        const errorMessage = result.error;
-        const startIndex = errorMessage.indexOf('"');
-        const endIndex = errorMessage.lastIndexOf('"');
-        const formattedErrorMessage = errorMessage.substring(startIndex + 1, endIndex);
-        setError(formattedErrorMessage)
-        console.error("Login Error:", result.error);
+        setError(result.error)
         // Handle error state or display error message to the user
       }
   
@@ -46,8 +42,7 @@ export default function Login() {
     }
 
   }
-
-
+  
   return (
     <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
        
