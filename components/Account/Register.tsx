@@ -1,11 +1,14 @@
 "use client"
 
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 
 export default function Register() {
   const [email, setEmail] = useState('');
-  const [username, setUsername] = useState('');
+  const [name, setName] = useState('');
   const [password, setPassword] = useState('');
+
+  const router = useRouter()
 
   const handleRegister = async (e: React.MouseEvent<HTMLFormElement>) => {
 
@@ -17,7 +20,7 @@ export default function Register() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, username, password }),
+        body: JSON.stringify({ email, name, password }),
       });
 
       if (!response.ok) {
@@ -26,6 +29,8 @@ export default function Register() {
 
       const data = await response.json();
       console.log('User registered:', data);
+      router.push("/")
+
       // Handle successful registration (e.g., redirect or show success message)
     } catch (error) {
       console.error('Error registering user:', error);
@@ -43,7 +48,7 @@ export default function Register() {
           </label>
 
           <label className="input input-bordered flex items-center gap-2">
-            <input type="text" className="grow" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} />
+            <input type="text" className="grow" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} />
           </label>
 
           <label className="input input-bordered flex items-center gap-2">

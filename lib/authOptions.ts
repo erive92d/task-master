@@ -3,8 +3,10 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import GithubProvider from "next-auth/providers/github"
 import prisma from "./prisma";
 import bcrypt from "bcrypt"
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
 
 export const authOptions: AuthOptions = {
+  adapter: PrismaAdapter(prisma),
     providers: [
       GithubProvider({
         name: "GitHub",
@@ -15,7 +17,6 @@ export const authOptions: AuthOptions = {
       CredentialsProvider({
         name: "credentials",
         credentials: {},
-        
         async authorize(credentials:any, req) {
           
           if(!credentials) {
@@ -24,7 +25,7 @@ export const authOptions: AuthOptions = {
 
           const {email, password} = credentials
           
-           const user = await prisma.user.findUnique({
+          const user = await prisma.user.findUnique({
           where: { email },
           });
   
@@ -38,7 +39,7 @@ export const authOptions: AuthOptions = {
         if (!isValidPassword) {
           throw new Error('Incorrect password');
         }
-
+        
         return user
 
         },
@@ -60,7 +61,6 @@ export const authOptions: AuthOptions = {
       },
       session: async ({ session, token }) => {
         session.user = token;
-   
         return session;
       },
     },

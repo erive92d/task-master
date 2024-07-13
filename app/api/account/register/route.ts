@@ -5,8 +5,8 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest, res: NextResponse) {
     
-    const { email, username, password } = await req.json()
-    console.log(email, username, password)
+    const { email, name, password } = await req.json()
+    console.log(email, name, password)
   // Hash password
   const hashedPassword = await bcrypt.hash(password, 10); // 10 is the salt rounds
 
@@ -15,7 +15,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
     const newUser = await prisma.user.create({
       data: {
         email,
-        username,
+        name,
         password: hashedPassword,
       },
     });
